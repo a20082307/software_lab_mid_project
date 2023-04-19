@@ -1,0 +1,90 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+
+    overflow: hidden;
+}
+
+body {
+    background-color: #cdcdcd;
+}
+
+.root {
+    position: relative;
+}
+
+@media only screen and (max-device-width: 576px) {
+    .col-1  {width: 8.33vw;}
+    .col-2  {width: 16.66vw;}
+    .col-3  {width: 25vw;}
+    .col-4  {width: 33.33vw;}
+    .col-5  {width: 41.66vw;}
+    .col-6  {width: 50vw;}
+    .col-7  {width: 58.33vw;}
+    .col-8  {width: 66.66vw;}
+    .col-9  {width: 75vw;}
+    .col-10 {width: 83.33vw;}
+    .col-11 {width: 91.66vw;}
+    .col-12 {width: 100vw;}
+}
+@media only screen and (min-device-width: 576px) {  /********* Phone *********/
+    .col-p-1  {width: 8.33vw;}
+    .col-p-2  {width: 16.66vw;}
+    .col-p-3  {width: 25vw;}
+    .col-p-4  {width: 33.33vw;}
+    .col-p-5  {width: 41.66vw;}
+    .col-p-6  {width: 50vw;}
+    .col-p-7  {width: 58.33vw;}
+    .col-p-8  {width: 66.66vw;}
+    .col-p-9  {width: 75vw;}
+    .col-p-10 {width: 83.33vw;}
+    .col-p-11 {width: 91.66vw;}
+    .col-p-12 {width: 100vw;}
+}
+@media only screen and (min-device-width: 768px) {  /********** Tablet **********/
+    .col-t-1  {width: 8.33vw;}
+    .col-t-2  {width: 16.66vw;}
+    .col-t-3  {width: 25vw;}
+    .col-t-4  {width: 33.33vw;}
+    .col-t-5  {width: 41.66vw;}
+    .col-t-6  {width: 50vw;}
+    .col-t-7  {width: 58.33vw;}
+    .col-t-8  {width: 66.66vw;}
+    .col-t-9  {width: 75vw;}
+    .col-t-10 {width: 83.33vw;}
+    .col-t-11 {width: 91.66vw;}
+    .col-t-12 {width: 100vw;}
+}
+@media only screen and (min-device-width: 992px) {  /********** Laptop **********/
+    .col-l-1  {width: 8.33vw;}
+    .col-l-2  {width: 16.66vw;}
+    .col-l-3  {width: 25vw;}
+    .col-l-4  {width: 33.33vw;}
+    .col-l-5  {width: 41.66vw;}
+    .col-l-6  {width: 50vw;}
+    .col-l-7  {width: 58.33vw;}
+    .col-l-8  {width: 66.66vw;}
+    .col-l-9  {width: 75vw;}
+    .col-l-10 {width: 83.33vw;}
+    .col-l-11 {width: 91.66vw;}
+    .col-l-12 {width: 100vw;}
+}
+@media only screen and (min-device-width: 1200px) { /********** Desktop **********/
+    .col-d-1  {width: 8.33vw;}
+    .col-d-2  {width: 16.66vw;}
+    .col-d-3  {width: 25vw;}
+    .col-d-4  {width: 33.33vw;}
+    .col-d-5  {width: 41.66vw;}
+    .col-d-6  {width: 50vw;}
+    .col-d-7  {width: 58.33vw;}
+    .col-d-8  {width: 66.66vw;}
+    .col-d-9  {width: 75vw;}
+    .col-d-10 {width: 83.33vw;}
+    .col-d-11 {width: 91.66vw;}
+    .col-d-12 {width: 100vw;}
+    
+}
+
+
+

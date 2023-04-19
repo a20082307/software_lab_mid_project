@@ -5,6 +5,7 @@ import 'firebase/compat/auth'
 import 'firebase/compat/database'
 
 import App from './App'
+import './index.css'
 
 const config = {
     apiKey: "AIzaSyCWnE61qwD_Sq4vsyx9Rrjs32cJJ_UjZls",
@@ -15,9 +16,9 @@ const config = {
     appId: "1:385018300200:web:dad04b67d5d1cf99ea321d",
     measurementId: "G-G8RTS5Q35B"
 }
-const app = firebase.initializeApp(config)
+firebase.initializeApp(config)
 
 const root = ReactDom.createRoot(document.getElementById('root'))
-root.render(<App/>)
+root.render(<App firebase = {firebase}/>)
 
 
