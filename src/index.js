@@ -5,7 +5,7 @@ import 'firebase/compat/auth'
 import 'firebase/compat/database'
 
 import App from './App'
-import './index.css'
+import './scss/index.style.scss'
 
 const config = {
     apiKey: "AIzaSyCWnE61qwD_Sq4vsyx9Rrjs32cJJ_UjZls",

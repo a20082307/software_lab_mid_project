@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import Title from './Title'
 import Login from './Login'
+import Chat from './Chat'
 
-import './App.css'
+import './scss/login-container.style.scss'
 
 
 export default function App(props) {
@@ -10,8 +11,8 @@ export default function App(props) {
 
     return (
         <div className = 'container'>
-            <Title/>
-            {hasLogin ? null : <Login {...props} setHasLogin = {setHasLogin}/>}
+            {hasLogin ? null : <Title hasLogin = {hasLogin}/>}
+            {hasLogin ? <Chat {...props}/> : <Login {...props} setHasLogin = {setHasLogin}/>}
         </div>
     )
 }

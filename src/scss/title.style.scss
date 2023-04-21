@@ -1,3 +1,5 @@
+@import './index.style.scss';
+
 h2 {
     text-align: center;
     margin: 0;
@@ -8,13 +10,12 @@ h2 {
     left: 50%;
     transform: translate(-50%, -50%);
 
-    z-index: 1;
-
-    @media only screen and (min-device-width: 992px) {
-        font-size: 5vw;
-    }
-    @media only screen and (min-device-width: 1200px) {
+    @include laptop {
         font-size: 3.8vw;
-    }
-    
+    };
+    @include desktop {
+        font-size: 5vw;
+    };
+
+    display: if(bool(var(show)), block, none);
 }

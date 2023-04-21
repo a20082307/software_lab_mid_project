@@ -1,9 +1,10 @@
 import React from 'react'
-import '../index.css'
-import './index.css'
+import '../scss/title.style.scss'
 
-export default function Title() {
+export default function Title(props) {
+    const {hasLogin} = props.hasLogin
+
     return (
-        <h2>Online Chat</h2>
+        <h2 style = {{'show': hasLogin}}>Online Chat</h2>
     )
 }

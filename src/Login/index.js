@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import '../index.css'
-import './index.css'
+import '../scss/login.style.scss'
 
 import googleIcon from '../img/google.png'
 import facebookIcon from '../img/facebook.png'
@@ -58,10 +57,11 @@ export default function Login(props) {
         })
     }
     const handleLogIn = () => {
-        firebase.auth().createUserWithEmailAndPassword(txtEmail, txtPassword)
+        firebase.auth().signInWithEmailAndPassword(txtEmail, txtPassword)
         .then( userCredential => {
             //var user = userCredential.user;
             alert('success')
+            setHasLogin(true)
         })
         .catch( error => 
             alert(error.message)    
@@ -70,7 +70,7 @@ export default function Login(props) {
         emailInput.value = passwordInput.value = ''
     }
     const handleSignUp = () => {
-        firebase.auth().signInWithEmailAndPassword(txtEmail, txtPassword)
+        firebase.auth().createUserWithEmailAndPassword(txtEmail, txtPassword)
         .then( userCredential => {
             //var user = userCredential.user
             alert('success')
@@ -83,7 +83,6 @@ export default function Login(props) {
     return (
         <div>
             <input 
-                className = 'col-d-4 col-l-4 col-t-8 col-p-10 col-11'
                 id = 'emailInput'
                 onChange = {handleInput} 
                 type = 'text' 
@@ -92,7 +91,6 @@ export default function Login(props) {
                 ref = {node => setEmailInput(node)}
             ></input><br/>
             <input 
-                className = 'col-d-4 col-l-4 col-t-8 col-p-10 col-11'
                 id = 'passwordInput'
                 onChange={handleInput} 
                 type = 'password' 
@@ -102,12 +100,10 @@ export default function Login(props) {
             ></input><br/>
 
             <button     /********** sign up btn **********/
-                className = 'col-d-2 col-l-2' 
                 id = 'btn-sign-up'
                 onClick = {handleSignUp}
             >Sign up</button><br/>
             <button     /********** sign in btn **********/
-                className = 'col-d-2 col-l-2'
                 id = 'btn-log-in' 
                 onClick = {handleLogIn}
             >Log in</button><br/><br/>
@@ -115,17 +111,14 @@ export default function Login(props) {
             <p id = 'other-sign-in-way'>Or sign in with</p>
 
             <button     /********** google btn **********/
-                className = 'third-sign-in col-d-1 col-l-1' 
                 id = 'btn-google'
                 onClick = {handelGoogleLogIn}
             ><img id = 'google-icon' src = {googleIcon} alt = 'google icon'/> Google</button>
             <button     /********** facebook btn **********/
-                className = 'third-sign-in col-d-1 col-l-1' 
                 id = 'btn-facebook'
                 onClick = {handelFacebookLogIn}
             ><img id = 'facebook-icon' src = {facebookIcon} alt = 'facebook icon'/> Facebook</button>
             <button     /********** github btn **********/
-                className = 'third-sign-in col-d-1 col-l-1' 
                 id = 'btn-github'
                 onClick = {handleGithubLogIn}
             ><img id = 'github-icon' src = {githubIcon} alt = 'github icon'/> Github</button>
