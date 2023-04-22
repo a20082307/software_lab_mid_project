@@ -9,7 +9,14 @@
     width: fn.col($col);
 }
 
-input {
+:root {
+    --show-login: block;
+}
+#login {
+    display: var(--show-login);
+}
+
+#login input {
     border-radius: 100px;
 
     text-align: center;
@@ -28,7 +35,7 @@ input {
         width: fn.col(4);
     }
 };
-#emailInput {
+#usernameInput {
     @include laptop {
         top: 38%;
     }
@@ -42,7 +49,7 @@ input {
     }
 }
 
-button {
+#login button {
     border: 0;
     border-radius: 100px;
 

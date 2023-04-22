@@ -6,28 +6,33 @@ import facebookIcon from '../img/facebook.png'
 import githubIcon from '../img/github.png'
 
 export default function Login(props) {
-    const {firebase, setHasLogin} = props
-    const [txtEmail, setEmail] = useState('')
+    const {firebase, setHasLogin, setUser} = props
+    const [userName, setUserName] = useState('')
     const [txtPassword, setPassword] = useState('')
-    let [emailInput, setEmailInput] = useState()
+    let [usernameInput, setUsernameInput] = useState()
     let [passwordInput, setPasswordInput] = useState()
-
     const handleInput = (event) => {
         const {name, value} = event.target
-        if (name === 'txtEmail') 
-            setEmail(value)
+        if (name === 'username') 
+            setUserName(value)
         else 
             setPassword(value)
     }
 
+    let user
     let googleProvider = new firebase.auth.GoogleAuthProvider()
     let facebookProvider = new firebase.auth.FacebookAuthProvider()
     let githubProvider = new firebase.auth.GithubAuthProvider()
     const handelGoogleLogIn = () => {
         firebase.auth().signInWithPopup(googleProvider)
-        .then(() => {
+        .then((result) => {
             console.log('Login with Google!')
+
+            user = result.user
+            setUser(user)
             setHasLogin(true)
+            setUserName('')
+            setPassword('')
         })
         .catch( error => {
             console.log(error.message)
@@ -38,7 +43,12 @@ export default function Login(props) {
         .then((result) => {
             //let token = result.credential.accessToken;
             console.log('Login with Facebook!')
+
+            user = result.user
+            setUser(user)
             setHasLogin(true)
+            setUserName('')
+            setPassword('')
         })
         .catch( error => {
             console.log(error.message)
@@ -50,29 +60,46 @@ export default function Login(props) {
             //let token = result.credential.accessToken
             //let user = result.user
             console.log('Login with Github!')
+
+            user = result.user
+            setUser(user)
             setHasLogin(true)
+            setUserName('')
+            setPassword('')
         })
         .catch( error => {
             console.log(error.message)
         })
     }
     const handleLogIn = () => {
-        firebase.auth().signInWithEmailAndPassword(txtEmail, txtPassword)
+        let email = userName.includes('@') ? userName : userName + '@onlinechat.com'
+        firebase.auth().signInWithEmailAndPassword(email, txtPassword)
         .then( userCredential => {
             //var user = userCredential.user;
             alert('success')
+
+            user = userCredential.user
+            setUser(user)
             setHasLogin(true)
+            setUserName('')
+            setPassword('')
         })
         .catch( error => 
             alert(error.message)    
         )
 
-        emailInput.value = passwordInput.value = ''
+        usernameInput.value = passwordInput.value = ''
     }
     const handleSignUp = () => {
-        firebase.auth().createUserWithEmailAndPassword(txtEmail, txtPassword)
-        .then( userCredential => {
-            //var user = userCredential.user
+        let email = userName.includes('@') ? userName : userName + '@onlinechat.com'
+
+        firebase.auth().createUserWithEmailAndPassword(email, txtPassword)
+        .then( (userCredential) => {
+            const user = userCredential.user
+            user.updateProfile({
+                displayName: userName.includes('@') ? userName.substring(0, userName.indexOf('@')) : userName,
+            })
+
             alert('success')
         })
         .catch( error => 
@@ -81,21 +108,21 @@ export default function Login(props) {
     }
 
     return (
-        <div>
+        <div id = 'login'>
             <input 
-                id = 'emailInput'
+                id = 'usernameInput'
                 onChange = {handleInput} 
                 type = 'text' 
-                name = "txtEmail"
-                placeholder = 'Please input Email'
-                ref = {node => setEmailInput(node)}
+                name = "username"
+                placeholder = 'Please input username or email'
+                ref = {node => setUsernameInput(node)}
             ></input><br/>
             <input 
                 id = 'passwordInput'
                 onChange={handleInput} 
                 type = 'password' 
                 name = 'txtPassword'
-                placeholder = 'Please input Password'
+                placeholder = 'Please input password'
                 ref = {node => setPasswordInput(node)}
             ></input><br/>
 

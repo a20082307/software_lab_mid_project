@@ -1,6 +1,11 @@
 @import './index.style.scss';
 
-div.container {
+:root {
+    --animate: none;
+    --show-login-container: block;
+}
+
+div#container {
     border: 0.1px solid white;
     border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.35);
@@ -11,11 +16,25 @@ div.container {
     transform: translate(-50%, -50%);
     
     @include laptop {
-        width: 40%;
+        width: 50%;
         height: 90%;
     };
     @include desktop {
-        width: 50%;
+        width: 40%;
         height: 90%;
+    }
+
+    animation-name: var(--animate);
+    animation-duration: 1.5s;
+
+    display: var(--show-login-container);
+}
+
+@keyframes rotate {
+    0% {
+        transform: translate(-50%, -50%) rotateY(0);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotateY(180deg);
     }
 }

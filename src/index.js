@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { StrictMode } from 'react'
 import ReactDom from 'react-dom/client'
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
@@ -19,6 +19,10 @@ const config = {
 firebase.initializeApp(config)
 
 const root = ReactDom.createRoot(document.getElementById('root'))
-root.render(<App firebase = {firebase}/>)
+root.render(
+    <StrictMode>
+        <App firebase = {firebase}/>
+    </StrictMode>
+)
 
 
