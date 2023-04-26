@@ -1,8 +1,0 @@
-@import './index.style.scss';
-
-:root {
-    --show-chat-container: none;
-}
-div#chat-container {
-    display: var(--show-chat-container);
-}
