@@ -1,0 +1,26 @@
+@use './index.style.scss' as fn;
+@import './index.style.scss';
+
+:root {
+    --show-title: block;
+}
+
+#login-title {
+    text-align: center;
+    margin: 0;
+
+    position: absolute;
+    width: 100%;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    @include laptop {
+        font-size: 5vw;
+    };
+    @include desktop {
+        font-size: 3.8vw;
+    };
+
+    display: var(--show-title);
+}
