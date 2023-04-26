@@ -1,0 +1,9 @@
+@import 'index.style.scss';
+
+:root {
+    --show-chat: none;
+}
+
+div#chat {
+    display: var(--show-chat);
+}

@@ -14,6 +14,8 @@ export default function App(props) {
         document.documentElement.style.setProperty('--show-title', hasLogin ? 'none' : 'block')
         document.documentElement.style.setProperty('--show-login', hasLogin ? 'none' : 'block')
         document.documentElement.style.setProperty('--animate', hasLogin ? 'rotate' : 'none')
+        document.documentElement.style.setProperty('--show-chat-title', 'none')
+        document.documentElement.style.setProperty('--show-chat', 'none')
     }, [hasLogin])
     
     const setdisplay = () => {

@@ -1,0 +1,9 @@
+@import './index.style.scss';
+
+:root {
+    --show-chat-title: none;
+}
+
+div#chat-title {
+    display: var(--show-chat-title);
+}

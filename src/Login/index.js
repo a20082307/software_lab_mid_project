@@ -57,8 +57,6 @@ export default function Login(props) {
     const handleGithubLogIn = () => {
         firebase.auth().signInWithPopup(githubProvider)
         .then((result) => {
-            //let token = result.credential.accessToken
-            //let user = result.user
             console.log('Login with Github!')
 
             user = result.user
