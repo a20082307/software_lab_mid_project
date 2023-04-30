@@ -1,0 +1,23 @@
+@use './index.style.scss' as fn;
+@import './index.style.scss';
+
+#bottom-btn {
+    border: 0.1px solid blue;
+
+    position: absolute;
+    @include desktop {
+        width: fn.col(3);
+        height: fn.row(1);
+        top: fn.row(11);
+    }
+
+    #new, #join, #logout {
+        @include desktop {
+            justify-content: center;
+            align-items: center;
+
+            width: fn.col(1);
+            height: fn.row(1);
+        }
+    }
+}

@@ -1,0 +1,43 @@
+@use './index.style.scss' as fn;
+@import './index.style.scss';
+
+#RoomList-container {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border: 0.1px solid red;
+    position: absolute;
+    
+    @include desktop {
+        width: fn.col(3);
+        height: fn.row(9);
+        top: fn.row(2);
+    }
+
+    &::-webkit-scrollbar {
+        width: fn.col(0.05);
+        background-color:transparent;
+        border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color:white;
+        border-radius: 4px;
+    }
+
+    .chat-item {
+        border: 0.1px solid black;
+        @include desktop {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: fn.col(3);
+            height: fn.row(1);
+            font-size: fn.row(0.5);
+        }
+
+        &:hover {
+            cursor: pointer;
+            background-color: #e6e6e6;
+        }
+    }
+}

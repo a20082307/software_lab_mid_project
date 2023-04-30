@@ -6,9 +6,13 @@ import RoomTitle from './RoomTitle'
 import ChatRoom from './ChatRoom'
 
 import '../scss/chat-container.style.scss'
+import '../scss/chat-btn.style.scss'
 
 export default function Chat(props) {
     const {firebase, user, setHasLogin, hasLogin} = props
+    const {defaultPic} = props
+    const {profilePicURL, setProfilePicURL} = props
+    const {searchingGIF, setSearchingGIF} = props
     const [chatNum, setChatNum] = useState(0)
     const [userInfo, setUserInfo] = useState({})
     const [selectedChat, setSelectedChat] = useState(null)
@@ -24,7 +28,12 @@ export default function Chat(props) {
                     displayName: user.displayName,
                     chatList: []
                 })
-                console.log('empty')
+                firebase.database().ref(`${user.uid}`).update({
+                    email: user.email, 
+                    displayName: user.displayName,
+                    chatList: [],
+                })
+                console.log('create new user', userInfo)
             }
         })  // load userInfo
 
@@ -38,6 +47,30 @@ export default function Chat(props) {
         .then(() => {
             setSelectedChat(null)
         })  // reset selectedChat
+
+        .then(() => {
+            console.log(defaultPic)
+            if (defaultPic !== null && defaultPic !== '' && defaultPic !== undefined) {
+                firebase.database().ref(`${user.uid}`).update({
+                    ...userInfo,
+                    profilePicURL: defaultPic
+                })
+                .then(() => {
+                    setProfilePicURL(defaultPic)
+                })
+            }
+            else {
+                firebase.storage().ref('default.png').getDownloadURL().then(url => {
+                    firebase.database().ref(`${user.uid}`).update({
+                        profilePicURL: url
+                    })
+                    .then(() => {
+                        setProfilePicURL(url)
+                    })
+                })
+            }
+            console.log('update profilePicURL', profilePicURL)
+        })
     }, [])
 
     const newProps = {
@@ -54,29 +87,35 @@ export default function Chat(props) {
         userInfo: userInfo,
         setUserInfo: setUserInfo,
         setSelectedChat: setSelectedChat,
+        setSearchingGIF: setSearchingGIF,
         feature: 'join'
     }
     const logoutProps = {
         ...props,
         hasLogin: hasLogin,
-        setHasLogin: setHasLogin,
         feature: 'logout'
     }
     const titleProps = {
         ...props,
-        selectedChat: selectedChat
+        selectedChat: selectedChat,
+        setUserInfo: setUserInfo,
     }
     const chatProps = {
         ...props,
+        selectedChat: selectedChat,
+        searchingGIF: searchingGIF,
+        setSearchingGIF: setSearchingGIF
     }
 
     return (
         <div id = 'chat-container'>
-            <User {...props}/>
+            <User {...props} setProfilePicURL = {setProfilePicURL} profilePicURL = {profilePicURL} />
             <RoomList {...props}  userInfo = {userInfo} setSelectedChat = {setSelectedChat} />
-            <Func {...newProps} />
-            <Func {...joinProps} />
-            <Func {...logoutProps} />
+            <div id = 'bottom-btn'>
+                <Func {...newProps} />
+                <Func {...joinProps} />
+                <Func {...logoutProps} />
+            </div>
             <RoomTitle {...titleProps} />
             <ChatRoom {...chatProps} />
         </div>

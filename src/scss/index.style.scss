@@ -8,6 +8,7 @@ html {
 
 body {
     background-color: #cdcdcd;
+    margin: 0;
 };
 
 @mixin desktop {
@@ -39,4 +40,8 @@ body {
 @function col($num) {
     $width: ($num / 12) * 100vw;
     @return $width;
+};
+@function row($num) {
+    $height: ($num / 12) * 100vh;
+    @return $height;
 };

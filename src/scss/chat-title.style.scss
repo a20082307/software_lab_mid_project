@@ -1,3 +1,4 @@
+@use './index.style.scss' as fn;
 @import './index.style.scss';
 
 :root {
@@ -6,4 +7,54 @@
 
 div#chat-title {
     display: var(--show-chat-title);
+    border: 0.1px solid red;
+
+    position: absolute;
+    @include desktop {
+        width: fn.col(9);
+        height: fn.row(2);
+
+        left: fn.col(3);
+    }
+
+    p {
+        margin: 0;
+    }
+
+    #invite {
+        position: absolute;
+        @include desktop {
+            width: fn.col(0.5);
+            height: fn.row(1);
+            right: fn.col(0.25);
+            top: fn.row(0.5);
+        }
+    }
+
+    #chat-title-name {
+        position: absolute;
+        @include desktop {
+            width: fn.col(6);
+            height: fn.row(2);
+
+            font-size: fn.row(1.25);
+            left: fn.col(0.5);
+            transform: translateY(-50%);
+            top: 50%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    #chat-title-id {
+        position: absolute;
+        @include desktop {
+            right: fn.col(1);
+            transform: translateY(-50%);
+            top: 50%;
+        }
+    }
 }
+

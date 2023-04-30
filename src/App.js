@@ -9,6 +9,9 @@ import './scss/login-container.style.scss'
 export default function App(props) {
     const [hasLogin, setHasLogin] = useState(false)
     const [user, setUser] = useState()
+    const [defaultPic, setDefaultPic] = useState(null)
+    const [profilePicURL, setProfilePicURL] = useState()
+    const [searchingGIF, setSearchingGIF] = useState(false)
 
     useEffect(() => {
         document.documentElement.style.setProperty('--show-title', hasLogin ? 'none' : 'block')
@@ -24,22 +27,32 @@ export default function App(props) {
         document.documentElement.style.setProperty('--animate', 'none')
     }
 
+    const loginProps = {
+        ...props,
+        setHasLogin: setHasLogin,
+        setUser: setUser,
+        setDefaultPic: setDefaultPic
+    }
+    const chatProps = {
+        ...props,
+        user: user,
+        hasLogin: hasLogin,
+        defaultPic: defaultPic,
+        profilePicURL: profilePicURL,
+        searchingGIF: searchingGIF,
+        setHasLogin: setHasLogin,
+        setDefaultPic: setDefaultPic,
+        setProfilePicURL: setProfilePicURL,
+        setSearchingGIF: setSearchingGIF
+    }
+
     return (
         <div>
             <div id = 'container' onAnimationEnd = {setdisplay}>
                 <Title/>
-                <Login {...props} setHasLogin = {setHasLogin} setUser = {setUser} />
+                <Login {...loginProps} />
             </div>
-            {
-                hasLogin ? 
-                <Chat 
-                    {...props} 
-                    user = {user} 
-                    setHasLogin = {setHasLogin} 
-                    hasLogin = {hasLogin} 
-                /> : 
-                null
-            }
+            {hasLogin && <Chat {...chatProps}/>}
         </div>
     )
 }

@@ -4,12 +4,19 @@ import newImg from '../img/new.png'
 import joinImg from '../img/join.png'
 import logoutImg from '../img/logout.png'
 import inviteImg from '../img/invite.png'
+import sendImg from '../img/send.png'
+import pictureImg from '../img/picture.png'
+import gifImg from '../img/gif.png'
+
+import '../scss/chat-btn.style.scss'
 
 export default function Func(props) {
     const {firebase, feature, user, setSelectedChat} = props
     const {setHasLogin, chatNum, setChatNum} = props
-    const {userInfo, setUserInfo} = props
+    const {userInfo, setUserInfo, setProfilePicURL, setDefaultPic, setSearchingGIF} = props
     const {selectedChat} = props
+    const {inputMsg, setInputMsg} = props
+    const {api, searchingGIF} = props
 
     const NewChatroom = () => {
         let chatName
@@ -37,7 +44,7 @@ export default function Func(props) {
                     let temList = userInfo.chatList
                     console.log(temList)
                     temList.push([chatName, chatId])
-                    setUserInfo({...userInfo, chat: temList})
+                    setUserInfo({...userInfo, chatList: temList})
                     firebase.database().ref(`${user.uid}`).update(userInfo)
 
                     alert('create chatroom!')
@@ -49,7 +56,6 @@ export default function Func(props) {
             }
         })
     }
-
     const JoinChatroom = () => {
         let target;
         while(true) {
@@ -77,7 +83,7 @@ export default function Func(props) {
 
                         let temList = userInfo.chatList
                         temList.push([targetChatroom.chatName, targetChatroom.chatId])
-                        setUserInfo({...userInfo, chat: temList})
+                        setUserInfo({...userInfo, chatList: temList})
                         firebase.database().ref(`${user.uid}`).update(userInfo)
                         .then(() => {
                             alert('join the chatroom!')
@@ -109,7 +115,7 @@ export default function Func(props) {
 
                     let temList = userInfo.chatList
                     temList.push([targetChatroom.chatName, targetChatroom.chatId])
-                    setUserInfo({...userInfo, chat: temList})
+                    setUserInfo({...userInfo, chatList: temList})
                     firebase.database().ref(`${user.uid}`).update(userInfo)
                     .then(() => {
                         alert('join the chatroom!')
@@ -127,12 +133,14 @@ export default function Func(props) {
         }
         console.log(userInfo)
     }
-
     const Logout = () => {
         firebase.auth().signOut()
         .then(() => {
             console.log('sign out!')
             setHasLogin(false)
+            setProfilePicURL(null)
+            setDefaultPic(null)
+            setSearchingGIF(false)
             document.documentElement.style.setProperty('--show-title', 'block')
             document.documentElement.style.setProperty('--show-login', 'block')
             document.documentElement.style.setProperty('--show-login-container', 'block')
@@ -145,11 +153,10 @@ export default function Func(props) {
             alert(error.message)
         })
     }
-
     const Invite = () => {
         let targetEmail
         while(true) {
-            targetEmail = prompt('Please input the email of the person you want to invite')
+            targetEmail = prompt('Please input the email or the name of the person you want to invite')
             if (targetEmail == null) {
                 alert('Cancel inviting')
                 return
@@ -158,31 +165,71 @@ export default function Func(props) {
             if (targetEmail != '') 
                 break
         }
+        if (!targetEmail.includes('@'))
+            targetEmail += '@onlinechat.com'
 
         let success = false
         let targetUser
         firebase.database().ref().orderByChild('email').equalTo(targetEmail).once('value', snapshot => {
             if (snapshot.exists()) {
                 targetUser = Object.values(snapshot.val())[0]
-                let temList = targetUser.chat
-                temList.push([selectedChat.chatName, selectedChat.chatId])
-                snapshot.ref.child(Object.keys(snapshot.val())[0]).child('chat').update(temList)
-                alert('invite the person!')
+                let temList = targetUser.chatList
+                if (temList === undefined) {
+                    snapshot.ref.child(Object.keys(snapshot.val())[0]).child('chatList').update([[selectedChat.chatName, selectedChat.chatId]])
+                    success = true
+                    alert('invite the person!')
+                    
+                    setUserInfo({...userInfo, chatList: [[selectedChat.chatName, selectedChat.chatId]]})
+                    return
+                }
 
+                console.log(temList, selectedChat.chatId)
+                if (temList.some(element => element[1] === selectedChat.chatId)) {
+                    alert('already in this room')
+                    return
+                }
+
+                temList.push([selectedChat.chatName, selectedChat.chatId])
+                snapshot.ref.child(Object.keys(snapshot.val())[0]).child('chatList').update(temList)
                 success = true
+                alert('invite the person!')
+                
+                setUserInfo({...userInfo, chatList: temList})
             }
             else 
                 alert('no such email')
         })
         .then(() => {
             if (success) {
-                firebase.database().ref().orderByChild('chatId').equalTo(parseInt(selectedChat.chatId.substring(1))).once('value', snapshot => {
+                let temId = selectedChat.chatId
+                firebase.database().ref().orderByChild('chatId').equalTo(temId).once('value', snapshot => {
                     let msg = Object.values(snapshot.val())[0].message
                     msg.push(['system', `${user.displayName} has invited ${targetUser.displayName} to the room`])
                     snapshot.ref.child(Object.keys(snapshot.val())[0]).child('message').update(msg)
                 })
             }
         })
+    }
+    const Send = () => {
+        if (inputMsg !== '') {
+            const inputArea = document.getElementById('chat-input')
+            inputArea.value = ''
+            inputArea.scrollTop = inputArea.scrollHeight
+
+            let temId = selectedChat.chatId
+            const targetChatRef = firebase.database().ref().orderByChild('chatId').equalTo(temId)
+            targetChatRef.once('value', snapshot => {
+                snapshot.ref.child(Object.keys(snapshot.val())[0]).update({
+                    message: [...Object.values(snapshot.val())[0].message, ['user', inputMsg, user.displayName, user.uid]]
+                })
+            })
+        }
+    }
+    const SelectPicture = () => {
+        document.getElementById('picture-input').click()
+    }   
+    const SendGif = () => {
+        setSearchingGIF(!searchingGIF)
     }
 
     let img, handleEvent
@@ -202,6 +249,18 @@ export default function Func(props) {
         case 'invite':
             img = inviteImg
             handleEvent = Invite
+            break;
+        case 'send':
+            img = sendImg
+            handleEvent = Send
+            break;
+        case 'picture':
+            img = pictureImg
+            handleEvent = SelectPicture
+            break;
+        case 'gif':
+            img = gifImg
+            handleEvent = SendGif
             break;
     }
 

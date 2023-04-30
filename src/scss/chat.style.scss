@@ -1,3 +1,4 @@
+@use 'index.style.scss' as fn;
 @import 'index.style.scss';
 
 :root {
@@ -7,3 +8,203 @@
 div#chat {
     display: var(--show-chat);
 }
+#chat-msg {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    position: absolute;
+    @include desktop {
+        width: fn.col(9);
+        height: fn.row(9);
+        left: fn.col(3);
+        top: fn.row(2);
+    }
+
+    &::-webkit-scrollbar {
+        width: 5px;
+        background-color: red;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: #e6e6e6;
+    }
+    
+    .system-msg {
+        white-space: nowrap;
+        display: inline-block;
+        margin: 0;
+        border: 0.1px solid red;
+
+        @include desktop {
+            margin-top: fn.row(0.05);
+            margin-bottom: fn.row(0.05);
+            font-size: fn.row(0.3);
+        }
+    }
+
+    .user-msg-info {
+        border: 0.1px solid aqua;
+
+        @include desktop {
+            width: fn.col(9);
+        }
+    }
+    .user-chat-msg {
+        display: inline-block;
+        margin: 0;
+        border: 0.1px solid blue;
+
+        @include desktop {
+            margin-top: fn.row(0.05);
+            margin-bottom: fn.row(0.05);
+            font-size: fn.row(0.5);
+        }
+    }
+    .username {
+        display: inline-block;
+        margin: 0;
+        border: 0.1px solid blue;
+
+        @include desktop {
+            margin-top: fn.row(0.05);
+            margin-bottom: fn.row(0.05);
+            font-size: fn.row(0.3);
+        }
+    }
+
+    .user-img-info {
+        border: 0.1px solid aqua;
+    }
+    .user-img-container {
+        border: 0.1px solid blue;
+        @include desktop {
+            max-width: fn.col(2);
+            nax-height: fn.row(2);
+        }
+    }
+    .user-img{
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+}
+#chat-function {
+    position: absolute;
+    border: 0.1px solid green;
+
+    @include desktop {
+        width: fn.col(9);
+        height: fn.row(1);
+        top: fn.row(11);
+        left: fn.col(3);
+    }
+
+    #chat-input, #gif-input {
+        position: absolute;
+        border: 0;
+        padding: 0;
+        border: 0;
+
+        &:focus {
+            outline: none;
+        }
+
+        @include desktop {
+            width: fn.col(7);
+            height: fn.row(0.5);
+
+            transform: translateY(-50%);
+            top: 50%;
+            left: fn.col(0.05);
+
+            padding: fn.col(0.05) fn.col(0.05);
+            font-size: fn.row(0.325);
+        }
+    }
+    #chat-input {
+        z-index: 1;
+    }
+    #gif-input {
+        z-index: 2;
+    }
+
+    #send, #picture, #gif {
+        position: absolute;
+        transform: translateY(-50%);
+        top: 50%;
+        padding: 0;
+        border: 0;
+
+        @include desktop {
+            width: fn.row(0.75);
+            height: fn.row(0.75);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        &:hover {
+            cursor: pointer;
+            background-color: #e6e6e6;
+        }
+    }
+    #gif {
+        @include desktop {
+            left: fn.col(7.2);
+        }
+    }
+    #picture {
+        @include desktop {
+            left: fn.col(7.25 + 0.75 / 2);
+        }
+    }
+    #send {
+        @include desktop {
+            left: fn.col(7.3 + 1.5 / 2);
+        }
+    }
+
+    #picture-input {
+        display: none;
+    }
+}
+#chat-gif {
+    border: 0.1px solid magenta;
+    overflow-x: auto;
+    display: flex;
+
+    position: absolute;
+    @include desktop {
+        width: fn.col(9);
+        height: fn.row(2.4);
+
+        top: fn.row(8.6);
+        left: fn.col(3);
+    }
+
+    &::-webkit-scrollbar {
+        width: 5px;
+        border-radius: 10px;
+        background-color: red;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: #e6e6e6;
+        border-radius: 10px;
+    }
+
+    .gif-option {
+        position: inline-block;
+        width: fn.col(1.6);
+        height: fn.row(2.2);
+
+        margin-left: fn.row(0.05);
+        margin-right: fn.row(0.05);
+
+        opacity: 0.9;
+    }
+}
+

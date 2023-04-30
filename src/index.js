@@ -3,6 +3,7 @@ import ReactDom from 'react-dom/client'
 import firebase from 'firebase/compat/app'
 import 'firebase/compat/auth'
 import 'firebase/compat/database'
+import 'firebase/compat/storage'
 
 import App from './App'
 import './scss/index.style.scss'
@@ -10,6 +11,7 @@ import './scss/index.style.scss'
 const config = {
     apiKey: "AIzaSyCWnE61qwD_Sq4vsyx9Rrjs32cJJ_UjZls",
     authDomain: "mid-project-597a7.firebaseapp.com",
+    databaseURL: "https://mid-project-597a7-default-rtdb.firebaseio.com",
     projectId: "mid-project-597a7",
     storageBucket: "mid-project-597a7.appspot.com",
     messagingSenderId: "385018300200",
@@ -18,6 +20,7 @@ const config = {
 }
 firebase.initializeApp(config)
 
+Notification.requestPermission(permission => {})
 const root = ReactDom.createRoot(document.getElementById('root'))
 root.render(
     <StrictMode>

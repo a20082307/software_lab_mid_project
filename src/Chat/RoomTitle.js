@@ -9,8 +9,8 @@ export default function RoomTitle(props) {
     return (
         selectedChat !== null ? 
         <div id = 'chat-title'>
-            <p>{selectedChat.chatName}</p>
-            <p>{selectedChat.chatId}</p>
+            <p id = 'chat-title-name'>{selectedChat.chatName}</p>
+            <p id = 'chat-title-id'>{selectedChat.chatId}</p>
             <Func {...props} feature = 'invite'/>
         </div> : null
     )

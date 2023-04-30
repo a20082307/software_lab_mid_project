@@ -1,0 +1,36 @@
+@use './index.style.scss' as fn;
+@import './index.style.scss';
+
+#user-info {
+    position: absolute;
+    border: 0.1px solid white;
+    @include desktop {
+        width: fn.col(3);
+        height: fn.row(2);
+    }
+
+    #user-name {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        transform: translate(-50%, -50%);
+        @include desktop {
+            width: fn.col(2);
+            height: fn.row(2);
+
+            font-size: fn.row(1.75);
+            
+            margin: 0;
+            left: 60%;
+            top: 50%;
+        }
+    }
+
+    #user-img {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}

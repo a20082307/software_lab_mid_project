@@ -7,6 +7,7 @@ import githubIcon from '../img/github.png'
 
 export default function Login(props) {
     const {firebase, setHasLogin, setUser} = props
+    const {setDefaultPic} = props
     const [userName, setUserName] = useState('')
     const [txtPassword, setPassword] = useState('')
     let [usernameInput, setUsernameInput] = useState()
@@ -26,13 +27,14 @@ export default function Login(props) {
     const handelGoogleLogIn = () => {
         firebase.auth().signInWithPopup(googleProvider)
         .then((result) => {
-            console.log('Login with Google!')
+            console.log('Login with Google!', result.additionalUserInfo.profile.picture)
 
             user = result.user
             setUser(user)
-            setHasLogin(true)
+            setDefaultPic(result.additionalUserInfo.profile.picture)
             setUserName('')
             setPassword('')
+            setHasLogin(true)
         })
         .catch( error => {
             console.log(error.message)
@@ -42,11 +44,12 @@ export default function Login(props) {
         firebase.auth().signInWithPopup(facebookProvider)
         .then((result) => {
             //let token = result.credential.accessToken;
-            console.log('Login with Facebook!')
+            console.log('Login with Facebook!', result.additionalUserInfo.profile.picture.data.url)
 
             user = result.user
             setUser(user)
             setHasLogin(true)
+            setDefaultPic(result.additionalUserInfo.profile.picture.data.url)
             setUserName('')
             setPassword('')
         })
@@ -57,11 +60,12 @@ export default function Login(props) {
     const handleGithubLogIn = () => {
         firebase.auth().signInWithPopup(githubProvider)
         .then((result) => {
-            console.log('Login with Github!')
+            console.log('Login with Github!', result.additionalUserInfo.profile.avatar_url)
 
             user = result.user
             setUser(user)
             setHasLogin(true)
+            setDefaultPic(result.additionalUserInfo.profile.avatar_url)
             setUserName('')
             setPassword('')
         })
