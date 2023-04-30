@@ -26,19 +26,21 @@ export default function Chat(props) {
                 setUserInfo({
                     email: user.email, 
                     displayName: user.displayName,
-                    chatList: []
+                    chatList: [], 
+                    nth: -1
                 })
                 firebase.database().ref(`${user.uid}`).update({
                     email: user.email, 
                     displayName: user.displayName,
                     chatList: [],
+                    nth: -1
                 })
                 console.log('create new user', userInfo)
             }
         })  // load userInfo
 
         .then(firebase.database().ref().orderByChild('nth').limitToLast(1).once('value', snapshot => {
-            if (snapshot.exists())
+            if (snapshot.exists() && 'nth' in Object.values(snapshot.val()))
                 setChatNum(snapshot.val()[Object.keys(snapshot.val())[0]].nth + 1)
             else
                 setChatNum(0)
@@ -110,7 +112,7 @@ export default function Chat(props) {
     return (
         <div id = 'chat-container'>
             <User {...props} setProfilePicURL = {setProfilePicURL} profilePicURL = {profilePicURL} />
-            <RoomList {...props}  userInfo = {userInfo} setSelectedChat = {setSelectedChat} />
+            <RoomList {...props}  userInfo = {userInfo} setUserInfo = {setUserInfo} setSelectedChat = {setSelectedChat} />
             <div id = 'bottom-btn'>
                 <Func {...newProps} />
                 <Func {...joinProps} />

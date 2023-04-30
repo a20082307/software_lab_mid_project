@@ -17,6 +17,9 @@ export default function ChatRoom(props) {
             let targetId = selectedChat.chatId
             const targetChatRef = firebase.database().ref().orderByChild('chatId').equalTo(targetId)
             targetChatRef.on('value', snapshot => {
+                console.log('chatroom', snapshot.exists())
+                if (!snapshot.exists())
+                    return
                 setMsg(Object.values(snapshot.val())[0].message)
 
                 console.log(Notification.permission)
@@ -137,6 +140,10 @@ export default function ChatRoom(props) {
             {
                 (selectedChat !== null && selectedChat !== undefined) && (
                     msg.map( item => {
+                        let ppURL
+                        firebase.database().ref(item[3]).once('value', snapshot => {
+                            ppURL = snapshot.val().profilePicURL   
+                        })
                         switch(item[0]) {
                             case 'system':
                                 return (
@@ -147,7 +154,7 @@ export default function ChatRoom(props) {
                                 )
 
                             case 'user':
-                                if (item[3] == user.uid)
+                                if (item[3] == user.uid) {
                                     return (
                                         <div className = 'user-msg-info'>
                                             <div className = 'user-msg-container'>
@@ -156,8 +163,12 @@ export default function ChatRoom(props) {
                                             <div className = 'user-name-container'>
                                                 <p className = 'username'>{item[2]}</p>
                                             </div>
+                                            <div className = 'user-pp-container'>
+                                                <img src = {ppURL} alt = 'profile pic' className = 'user-pp'/>
+                                            </div>
                                         </div>
                                     )
+                                }
                                 else 
                                     return (
                                         <div className = 'others-msg-info'>
@@ -166,6 +177,9 @@ export default function ChatRoom(props) {
                                             </div>
                                             <div className = 'others-name-container'>
                                                 <p className = 'others'>{item[2]}</p>
+                                            </div>
+                                            <div className = 'others-pp-container'>
+                                                <img src = {ppURL} alt = 'profile pic' className = 'others-pp'/>
                                             </div>
                                         </div>
                                     )
@@ -179,6 +193,9 @@ export default function ChatRoom(props) {
                                             <div className = 'user-name-container'>
                                                 <p className = 'username'>{item[2]}</p>
                                             </div>
+                                            <div className = 'user-pp-container'>
+                                                <img src = {ppURL} alt = 'profile pic' className = 'user-pp'/>
+                                            </div>
                                         </div>
                                     )
                                 else 
@@ -189,6 +206,9 @@ export default function ChatRoom(props) {
                                             </div>
                                             <div className = 'others-name-container'>
                                                 <p className = 'others'>{item[2]}</p>
+                                            </div>
+                                            <div className = 'others-pp-container'>
+                                                <img src = {ppURL} alt = 'profile pic' className = 'others-pp'/>
                                             </div>
                                         </div>
                                     )

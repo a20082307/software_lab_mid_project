@@ -14,7 +14,19 @@ div#container {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    
+
+    @include small-phone {
+        width: 95%;
+        height: 98%;
+    }
+    @include phone {
+        width: 90%;
+        height: 90%;
+    }
+    @include tablet {
+        width: 60%;
+        height: 90%;
+    }
     @include laptop {
         width: 50%;
         height: 90%;

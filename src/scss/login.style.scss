@@ -12,10 +12,13 @@
 :root {
     --show-login: block;
 }
+#container {
+    box-shadow: 0.05vw 0.2vw 0.25vw 0.1vw #505050, 0.05vw 0.2vw 0.3vw 0.1vw #606060;
+}
+
 #login {
     display: var(--show-login);
 }
-
 #login input {
     border-radius: 100px;
 
@@ -24,54 +27,103 @@
     position: absolute;
     transform: translate(-50%, -50%);
     left: 50%;
-    @include laptop {
-        font-size: 1.2vw;
+    @include small-phone {
+        font-size: 3.75vw;
         height: 5vh;
-        width: fn.col(4);
+        width: fn.col(8);
+    }
+    @include phone {
+        font-size: 3.5vw;
+        height: 5vh;
+        width: fn.col(7.5);
+    }
+    @include tablet {
+        font-size: 3vw;
+        height: 5vh;
+        width: fn.col(5);
+    }
+    @include laptop {
+        font-size: 2.5vw;
+        height: 5vh;
+        width: fn.col(4.5);
     }
     @include desktop {
-        font-size: 1.25vw;
+        font-size: 2vw;
         height: 5vh;
         width: fn.col(4);
     }
 };
 #usernameInput {
-    @include laptop {
-        top: 38%;
-    }
+    top: 35%;
 }
 #passwordInput {
+    @include small-phone {
+        top: 42.55%;
+    }
+    @include phone {
+        top: 42.45%;
+    }
+    @include tablet {
+        top: 42.35%;
+    }
     @include laptop {
-        top: 44.5%;
+        top: 42.25%;
     }
     @include desktop {
-        top: 45%;
+        top: 42.15%;
     }
 }
 
 #btn-sign-up {
+    @include small-phone {
+        @include btn(7.4vh, 68%, 27.5%, 3.75vw, 4);
+    }
+    @include phone {
+        @include btn(7.35vh, 68%, 28%, 3.5vw, 3.75);
+    }
+    @include tablet {
+        @include btn(7.4vh, 68%, 29%, 3vw, 2.5);
+    }
     @include laptop {
-        @include btn(7.45vh, 60%, 27.5%, 1.2vw, 2);
+        @include btn(7.45vh, 68%, 27.5%, 2.5vw, 2.25);
     }
     @include desktop {
-        @include btn(7.5vh, 64%, 25%, 1.25vw, 2);
+        @include btn(7.5vh, 68%, 25%, 2vw, 2);
     }
 }
 #btn-log-in {
+    @include small-phone {
+        @include btn(7.3vh, 68%, 72.5%, 3.75vw, 4)
+    }
+    @include phone {
+        @include btn(7.35vh, 68%, 72%, 3.5vw, 3.75)
+    }
+    @include tablet {
+        @include btn(7.4vh, 68%, 71%, 3vw, 2.5)
+    }
     @include laptop {
-        @include btn(7.45vh, 60%, 72.5%, 1.2vw, 2);
+        @include btn(7.45vh, 68%, 72.5%, 2.5vw, 2.25);
     }
     @include desktop {
-        @include btn(7.5vh, 64%, 75%, 1.25vw, 2);
+        @include btn(7.5vh, 68%, 75%, 2vw, 2);
     }
 }
 
 #btn-google {
+    @include small-phone {
+        @include btn(3.8vh, 89%, 18%, 3.3vw, 3);
+    }
+    @include phone {
+        @include btn(3.85vh, 89%, 20%, 3vw, 2.5);
+    }
+    @include tablet {
+        @include btn(3.9vh, 89%, 22%, 2vw, 1.4);
+    }
     @include laptop {
-        @include btn(3.95vh, 87.5%, 25%, 1.2vw, 1);
+        @include btn(3.95vh, 89%, 22%, 1.5vw, 1.2);
     }
     @include desktop {
-        @include btn(4vh, 87.5%, 25%, 1.25vw, 1);
+        @include btn(4vh, 89%, 22%, 1.25vw, 1);
     }
 }
 #login #btn-facebook {
@@ -79,11 +131,20 @@
     &:hover { 
         background-color: rgba(114,137,218, 0.8);
     }
+    @include small-phone {
+        @include btn(3.8vh, 89%, 50%, 3.3vw, 3);
+    }
+    @include phone {
+        @include btn(3.85vh, 89%, 50%, 3vw, 2.5);
+    }
+    @include tablet {
+        @include btn(3.9vh, 89%, 50%, 2vw, 1.7);
+    }
     @include laptop {
-        @include btn(3.95vh, 87.5%, 50%, 1.2vw, 1);
+        @include btn(3.95vh, 89%, 50%, 1.5vw, 1.2);
     }
     @include desktop {
-        @include btn(4vh, 87.5%, 50%, 1.25vw, 1);
+        @include btn(4vh, 89%, 50%, 1.25vw, 1);
     }
 }
 #login #btn-github {
@@ -91,11 +152,20 @@
     &:hover {
         background-color: white;
     }
+    @include small-phone {
+        @include btn(3.8vh, 89%, 82%, 3.3vw, 3);
+    }
+    @include phone {
+        @include btn(3.85vh, 89%, 80%, 3vw, 2.5);
+    }
+    @include tablet {
+        @include btn(3.9vh, 89%, 78%, 2vw, 1.4);
+    }
     @include laptop {
-        @include btn(3.95vh, 87.5%, 75%, 1.2vw, 1);
+        @include btn(3.95vh, 89%, 78%, 1.5vw, 1.2);
     }
     @include desktop {
-        @include btn(4vh, 87.5%, 75%, 1.25vw, 1);
+        @include btn(4vh, 89%, 78%, 1.25vw, 1);
     }
 }
 #btn-google, #btn-facebook, #btn-github {
@@ -118,6 +188,7 @@
 
     &:hover {
         background-color: rgba(151,198,160, 0.8);
+        cursor: pointer;
     }
 };
 
@@ -126,13 +197,25 @@
     border: 0;
     padding: 0;
 
+    @include small-phone {
+        height: 2.5vw;
+        width: 2.5vw;
+    }
+    @include phone {
+        height: 2.25vmin;
+        width: 2.25vmin;
+    }
+    @include tablet {
+        height: 2.25vmin;
+        width: 2.25vmin;
+    }
     @include laptop {
-        height: 1.75vh;
-        width: 1.75vh;
+        height: 2vmin;
+        width: 2vmin;
     }
     @include desktop {
-        height: 2vh;
-        width: 2vh;
+        height: 2vmin;
+        width: 2vmin;
     }
 }
 
@@ -142,8 +225,20 @@
     position: absolute;
     transform: translate(-50%, -50%);
     left: 50%;
+    @include small-phone {
+        font-size: 4vw;
+        top: 80%;
+    }
+    @include phone {
+        font-size: 2.5vw;
+        top: 80%;
+    }
+    @include tablet {
+        font-size: 1.8vw;
+        top: 80%;
+    }
     @include laptop {
-        font-size: 1.15vw;
+        font-size: 1.5vw;
         top: 80%;
     }
     @include desktop {

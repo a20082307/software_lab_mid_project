@@ -19,7 +19,7 @@ export default function Func(props) {
     const {api, searchingGIF} = props
 
     const NewChatroom = () => {
-        let chatName
+        let chatName, chatId
         while(true) {
             chatName = prompt('Please input the name of Chatroom', `${user.displayName}'s Chatroom`)
             if (chatName == null) {
@@ -29,32 +29,69 @@ export default function Func(props) {
             if (chatName != '') 
                 break
         }
+
         firebase.database().ref().orderByChild('chatName').equalTo(chatName).once('value', snapshot => {
             if (snapshot.exists()) 
                 alert('The name has been repeated!')
+            else
+                chatId = cyrb53(`${user.displayName}'s Chatroom`, chatNum)
+        })
+        .then(() => {
+            return firebase.database().ref().orderByChild('nth').limitToLast(1).once('value')
+        })
+        .then(snapshot => {
+            console.log(Object.values(snapshot.val())[0].nth, 'al;ksdfjasl;dfjasl;dfjk')
+            let newChatNum = Object.values(snapshot.val())[0].nth + 1
+            if (snapshot.exists()) {
+                setChatNum(newChatNum)
+                console.log('success catcg')
+                return newChatNum
+            }
             else {
-                let chatId = cyrb53(`${user.displayName}'s Chatroom`, chatNum)
-                firebase.database().ref(`chat-${chatNum}`).set({
-                    nth: chatNum,
-                    chatName: chatName,
-                    chatId: chatId,
-                    message: [['system', `${user.displayName} has joined the room`]]
+                setChatNum(0)   
+                return 0
+            }
+            // console.log(chatNum, snapshot.val()[Object.keys(snapshot.val())[0]].nth)
+        })
+        .then((newChatNum) => {
+            // console.log('before', chatNum)
+            firebase.database().ref(`chat-${newChatNum}`).set({
+                nth: newChatNum || 0,
+                chatName: chatName,
+                chatId: chatId,
+                message: [['system', `${user.displayName} has joined the room`]]
+            })
+        })
+        .then(() => {
+            return firebase.database().ref(`${user.uid}`).once('value')
+        })
+        .then(snapshot => {
+            console.log(snapshot.val())
+            if ('chatList' in snapshot.val()) {
+                let temList = snapshot.val().chatList
+                temList.push([chatName, chatId])
+                setUserInfo({...snapshot.val(), chatList: temList})
+                return firebase.database().ref(`${user.uid}`).update({...snapshot.val(), chatList: temList})
+            }
+            else {
+                setUserInfo({
+                    ...snapshot.val(),
+                    chatList: [[chatName, chatId]]
                 })
-                .then(() => {
-                    let temList = userInfo.chatList
-                    console.log(temList)
-                    temList.push([chatName, chatId])
-                    setUserInfo({...userInfo, chatList: temList})
-                    firebase.database().ref(`${user.uid}`).update(userInfo)
-
-                    alert('create chatroom!')
-                    setChatNum(chatNum + 1)
-                    setSelectedChat({chatName: chatName, chatId: chatId})
-                    document.documentElement.style.setProperty('--show-chat-title', 'block')
-                    document.documentElement.style.setProperty('--show-chat', 'block')
-                })
+                return firebase.database().ref(`${user.uid}`).update({...snapshot.val(), chatList: [[chatName, chatId]]})
             }
         })
+        .then(() => {
+            alert('create chatroom!')
+            setChatNum(chatNum + 1)
+            setSelectedChat({chatName: chatName, chatId: chatId})
+            document.documentElement.style.setProperty('--show-chat-title', 'block')
+            document.documentElement.style.setProperty('--show-chat', 'block')
+        })
+        .catch(error => {
+            console.log(error)
+        })
+            
     }
     const JoinChatroom = () => {
         let target;
@@ -82,7 +119,11 @@ export default function Func(props) {
                         }
 
                         let temList = userInfo.chatList
-                        temList.push([targetChatroom.chatName, targetChatroom.chatId])
+                        if (temList === undefined)
+                            temList = [[targetChatroom.chatName, targetChatroom.chatId]]
+                        else
+                            temList.push([targetChatroom.chatName, targetChatroom.chatId])
+                        
                         setUserInfo({...userInfo, chatList: temList})
                         firebase.database().ref(`${user.uid}`).update(userInfo)
                         .then(() => {
@@ -114,7 +155,11 @@ export default function Func(props) {
                     }
 
                     let temList = userInfo.chatList
-                    temList.push([targetChatroom.chatName, targetChatroom.chatId])
+                    if (temList === undefined)
+                        temList = [[targetChatroom.chatName, targetChatroom.chatId]]
+                    else
+                        temList.push([targetChatroom.chatName, targetChatroom.chatId])
+
                     setUserInfo({...userInfo, chatList: temList})
                     firebase.database().ref(`${user.uid}`).update(userInfo)
                     .then(() => {

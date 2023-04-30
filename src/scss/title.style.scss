@@ -15,6 +15,16 @@
     left: 50%;
     transform: translate(-50%, -50%);
 
+
+    @include small-phone {
+        font-size: 10vw;
+    }
+    @include phone {
+        font-size: 8vw;
+    }
+    @include tablet {
+        font-size: 6.2vw;
+    }
     @include laptop {
         font-size: 5vw;
     };

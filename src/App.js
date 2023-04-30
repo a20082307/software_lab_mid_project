@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+
 import Title from './Title'
 import Login from './Login'
 import Chat from './Chat'
@@ -12,6 +13,7 @@ export default function App(props) {
     const [defaultPic, setDefaultPic] = useState(null)
     const [profilePicURL, setProfilePicURL] = useState()
     const [searchingGIF, setSearchingGIF] = useState(false)
+    const [showRef, setShowRef] = useState(false)
 
     useEffect(() => {
         document.documentElement.style.setProperty('--show-title', hasLogin ? 'none' : 'block')
